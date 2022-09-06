@@ -1,56 +1,72 @@
-######### import libraries 
-
 import dash
-from dash import html
-from dash import dcc
-import plotly.graph_objs as go
-
-########### Define your variables
-drinks=['Coca-Cola', 'Gatorade', 'Cranberry Juice', 'Apple Juice', 'Coconut Water']
-sugar_values=[10, 5, 11, 10, 5]
-calorie_values=[14, 9.7, 20.5, 15.9, 9.9]
-color1='darkblue'
-color2='lightblue'
-mytitle='Beverage Comparison'
-
-label1='Sugar, tsp'
-label2='Calories, divided by 10'
-
-########### Set up the chart
-
-def make_that_cool_barchart(drinks, sugar_values, calorie_values, color1, color2, mytitle):
-    sugar_content = go.Bar(
-        x=drinks,
-        y=sugar_values,
-        name=label1,
-        marker={'color':color1}
-    )
-    calories = go.Bar(
-        x=drinks,
-        y=calorie_values,
-        name=label2,
-        marker={'color':color2}
-    )
-
-    drink_data = [sugar_content, calories]
-    drink_layout = go.Layout(
-        barmode='group',
-        title = mytitle
-    )
-
-    drink_fig = go.Figure(data=drink_data, layout=drink_layout)
-    return drink_fig
+from dash import html, dcc
+from dash.dependencies import Input, Output, State
 
 
-######### Run the function #######
+########### Define your variables ######
 
+myheading1='Try out a palindrome here!'
+initial_value='A nut for a jar of tuna'
+longtext='''
+        _Suggestions you might try:_
+        * A man, a plan, a canal: Panama!
+        * Go hang a salami I'm a lasagna hog
+        * God! Nate bit a Tibetan dog!
+        '''
+tabtitle = 'racecar'
+sourceurl = 'https://www.grammarly.com/blog/16-surprisingly-funny-palindromes/'
+githublink = 'https://github.com/plotly-dash-apps/202-palindrome-callbacks'
+
+########### Define a function for your callback:
+def my_function(letters):
+    return(letters[::-1])
+
+########### Initiate the app
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+server = app.server
+app.title=tabtitle
+
+########### Set up the layout
+
+app.layout = html.Div(children=[
+    html.H1(myheading1),
+    html.Div(children=[dcc.Markdown(longtext)]),
+    dcc.Input(id='input-div', value=initial_value, type='text',
+            style={'width':'50%'}),
+    html.Button(children='Taco Cat!', id='submit-val', n_clicks=0,
+                    style={
+                    'background-color': 'red',
+                    'color': 'white',
+                    'margin-left': '5px',
+                    'verticalAlign': 'center',
+                    'horizontalAlign': 'center'}
+                    ),
+    html.Div(id='output-div'),
+    html.Br(),
+    html.A('Code on Github', href=githublink),
+    html.Br(),
+    html.A("Data Source", href=sourceurl),
+    ]
+)
+
+
+########## Define Callback
+@app.callback(
+    Output(component_id='output-div', component_property='children'),
+    Input(component_id='submit-val', component_property='n_clicks'),
+    State(component_id='input-div', component_property='value')
+)
+def update_output_div(clicks, input_value):
+    palindrome=my_function(input_value)
+    if clicks==0:
+        return "Was it a car or a cat I saw?"
+    else:
+        return f"You've entered '{input_value}', and your output is '{palindrome}'"
+
+############ Deploy
 if __name__ == '__main__':
-    fig = make_that_cool_barchart(drinks, sugar_values, calorie_values, color1, color2, mytitle)
-    fig.write_html('docs/barchart.html')
-    print('Barchart update successful.')
-
-
-
+    app.run_server(debug=True)
 '''import dash
 from dash import dcc, html
 from dash.dependencies import Input, Output, State
