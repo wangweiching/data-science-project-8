@@ -1,10 +1,11 @@
+######### import libraries 
+
 import dash
-from dash import dcc, html
-from dash.dependencies import Input, Output, State
-
+from dash import html
+from dash import dcc
 import plotly.graph_objs as go
-import pandas as pd
 
+########### Define your variables
 drinks=['Coca-Cola', 'Gatorade', 'Cranberry Juice', 'Apple Juice', 'Coconut Water']
 sugar_values=[10, 5, 11, 10, 5]
 calorie_values=[14, 9.7, 20.5, 15.9, 9.9]
@@ -40,7 +41,8 @@ def make_that_cool_barchart(drinks, sugar_values, calorie_values, color1, color2
     drink_fig = go.Figure(data=drink_data, layout=drink_layout)
     return drink_fig
 
-######## Run the function #######
+
+######### Run the function #######
 
 if __name__ == '__main__':
     fig = make_that_cool_barchart(drinks, sugar_values, calorie_values, color1, color2, mytitle)
@@ -48,7 +50,16 @@ if __name__ == '__main__':
     print('Barchart update successful.')
 
 
-'''########### Define your variables ######
+
+'''import dash
+from dash import dcc, html
+from dash.dependencies import Input, Output, State
+
+import plotly.graph_objs as go
+import pandas as pd
+
+
+########### Define your variables ######
 
 tabtitle = '117th US House of Representatives'
 charturl = 'https://plot.ly/python/choropleth-maps/'
