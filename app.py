@@ -16,10 +16,7 @@ label1='Democrats'
 label2='Republicans'
 
 ########### Set up the chart
-df = pd.read_csv('sources/us-house-117.csv')
-df2 = df.groupby(['age_range', 'party'])['name'].count()
-df2 = df2.unstack(level=-1)
-df2 = df2.reset_index(level=0, inplace=True)
+df2 = pd.read_csv('sources/us-house-117-ages.csv')
 
 democrats = go.Bar(
     x=df2["age_range"],
