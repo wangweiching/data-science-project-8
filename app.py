@@ -5,10 +5,10 @@ import plotly.graph_objs as go
 import pandas as pd
 
 ########### Define your variables
-tabtitle='beer!'
-myheading='Flying Dog Beers'
-githublink='https://github.com/austinlasseter/flying-dog-beers'
-sourceurl='https://www.flyingdog.com/beers/'
+tabtitle='US House'
+myheading='117th US House of Representatives'
+githublink='https://github.com/astever31/data-science-project-8'
+sourceurl='https://www.kaggle.com/datasets/surajjha101/us-117th-house-of-representatives'
 color1='darkblue'
 color2='darkred'
 mytitle='Age Range of 117th House of Representatives'
@@ -31,13 +31,13 @@ republicans = go.Bar(
     marker={'color':color2}
 )
 
-beer_data = [democrats, republicans]
-beer_layout = go.Layout(
+data = [democrats, republicans]
+layout = go.Layout(
     barmode='group',
     title = mytitle
 )
 
-beer_fig = go.Figure(data=beer_data, layout=beer_layout)
+fig = go.Figure(data=data, layout=layout)
 
 ########### Initiate the app
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -49,8 +49,8 @@ app.title=tabtitle
 app.layout = html.Div(children=[
     html.H1(myheading),
     dcc.Graph(
-        id='flyingdog',
-        figure=beer_fig
+        id='ushouse',
+        figure=fig
     ),
     html.A('Code on Github', href=githublink),
     html.Br(),
