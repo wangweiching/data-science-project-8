@@ -1,25 +1,44 @@
 import dash
-from dash import html, dcc
-from dash.dependencies import Input, Output, State
+from dash import html
+from dash import dcc
+import plotly.graph_objs as go
 
+########### Define your variables
+beers=['Chesapeake Stout', 'Snake Dog IPA', 'Imperial Porter', 'Double Dog IPA']
+ibu_values=[35, 60, 85, 75]
+abv_values=[5.4, 7.1, 9.2, 4.3]
+color1='darkred'
+color2='orange'
+mytitle='Beer Comparison'
+tabtitle='beer!'
+myheading='Flying Dog Beers'
+label1='IBU'
+label2='ABV'
+githublink='https://github.com/austinlasseter/flying-dog-beers'
+sourceurl='https://www.flyingdog.com/beers/'
 
-########### Define your variables ######
+########### Set up the chart
+bitterness = go.Bar(
+    x=beers,
+    y=ibu_values,
+    name=label1,
+    marker={'color':color1}
+)
+alcohol = go.Bar(
+    x=beers,
+    y=abv_values,
+    name=label2,
+    marker={'color':color2}
+)
 
-myheading1='Try out a palindrome here!'
-initial_value='A nut for a jar of tuna'
-longtext='''
-        _Suggestions you might try:_
-        * A man, a plan, a canal: Panama!
-        * Go hang a salami I'm a lasagna hog
-        * God! Nate bit a Tibetan dog!
-        '''
-tabtitle = 'racecar'
-sourceurl = 'https://www.grammarly.com/blog/16-surprisingly-funny-palindromes/'
-githublink = 'https://github.com/plotly-dash-apps/202-palindrome-callbacks'
+beer_data = [bitterness, alcohol]
+beer_layout = go.Layout(
+    barmode='group',
+    title = mytitle
+)
 
-########### Define a function for your callback:
-def my_function(letters):
-    return(letters[::-1])
+beer_fig = go.Figure(data=beer_data, layout=beer_layout)
+
 
 ########### Initiate the app
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -28,45 +47,20 @@ server = app.server
 app.title=tabtitle
 
 ########### Set up the layout
-
 app.layout = html.Div(children=[
-    html.H1(myheading1),
-    html.Div(children=[dcc.Markdown(longtext)]),
-    dcc.Input(id='input-div', value=initial_value, type='text',
-            style={'width':'50%'}),
-    html.Button(children='Taco Cat!', id='submit-val', n_clicks=0,
-                    style={
-                    'background-color': 'red',
-                    'color': 'white',
-                    'margin-left': '5px',
-                    'verticalAlign': 'center',
-                    'horizontalAlign': 'center'}
-                    ),
-    html.Div(id='output-div'),
-    html.Br(),
+    html.H1(myheading),
+    dcc.Graph(
+        id='flyingdog',
+        figure=beer_fig
+    ),
     html.A('Code on Github', href=githublink),
     html.Br(),
-    html.A("Data Source", href=sourceurl),
+    html.A('Data Source', href=sourceurl),
     ]
 )
 
-
-########## Define Callback
-@app.callback(
-    Output(component_id='output-div', component_property='children'),
-    Input(component_id='submit-val', component_property='n_clicks'),
-    State(component_id='input-div', component_property='value')
-)
-def update_output_div(clicks, input_value):
-    palindrome=my_function(input_value)
-    if clicks==0:
-        return "Was it a car or a cat I saw?"
-    else:
-        return f"You've entered '{input_value}', and your output is '{palindrome}'"
-
-############ Deploy
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server()
 '''import dash
 from dash import dcc, html
 from dash.dependencies import Input, Output, State
