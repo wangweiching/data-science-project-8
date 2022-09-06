@@ -2,43 +2,45 @@ import dash
 from dash import html
 from dash import dcc
 import plotly.graph_objs as go
+import pandas as pd
 
 ########### Define your variables
-beers=['Chesapeake Stout', 'Snake Dog IPA', 'Imperial Porter', 'Double Dog IPA']
-ibu_values=[35, 60, 85, 75]
-abv_values=[5.4, 7.1, 9.2, 4.3]
-color1='darkred'
-color2='orange'
-mytitle='Beer Comparison'
 tabtitle='beer!'
 myheading='Flying Dog Beers'
-label1='IBU'
-label2='ABV'
 githublink='https://github.com/austinlasseter/flying-dog-beers'
 sourceurl='https://www.flyingdog.com/beers/'
+color1='darkblue'
+color2='darkred'
+mytitle='Age Range of 117th House of Representatives'
+label1='Democrats'
+label2='Republicans'
 
 ########### Set up the chart
-bitterness = go.Bar(
-    x=beers,
-    y=ibu_values,
+df = pd.read_csv('sources/us-house-117.csv')
+df2 = df.groupby(['age_range', 'party'])['name'].count()
+df2 = df2.unstack(level=-1)
+df2 = df2.reset_index(level=0, inplace=True)
+
+democrats = go.Bar(
+    x=df2["age_range"],
+    y=df2["Democratic"],
     name=label1,
     marker={'color':color1}
 )
-alcohol = go.Bar(
-    x=beers,
-    y=abv_values,
+republicans = go.Bar(
+    x=df2["age_range"],
+    y=df2["Republican"],
     name=label2,
     marker={'color':color2}
 )
 
-beer_data = [bitterness, alcohol]
+beer_data = [democrats, republicans]
 beer_layout = go.Layout(
     barmode='group',
     title = mytitle
 )
 
 beer_fig = go.Figure(data=beer_data, layout=beer_layout)
-
 
 ########### Initiate the app
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
