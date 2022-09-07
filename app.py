@@ -25,7 +25,7 @@ list_of_columns = ["Alaska", "Alabama", "Arkansas", "Arizona", "California", "Co
 df = pd.read_csv('sources/us-house-117.csv')
 data2 = df.groupby(['age_range', 'party'])['name'].count()
 data2 = data2.unstack(level=-1)
-data2 = data2.reset_index(level=0, inplace=True)
+data2.reset_index(level=0, inplace=True)
 fig2 = px.bar(data2, x='age_range', y=['Democratic','Republican'],
               barmode='group')
 ########## US States to Code
