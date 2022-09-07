@@ -103,8 +103,9 @@ app.layout = html.Div(children=[
                     value='Alaska'
                 ),
         ], className='two columns'),
-        html.Div([dcc.Graph(id='figure-2'),
-                  figure=fig2
+        html.Div([dcc.Graph(id='figure-2',
+                           figure=fig2
+                           ),
             ], className='ten columns'),
     ], className='twelve columns'),
     html.A('Code on Github', href=githublink),
