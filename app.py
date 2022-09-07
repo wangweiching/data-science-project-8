@@ -24,11 +24,6 @@ list_of_columns = ["Alaska", "Alabama", "Arkansas", "Arizona", "California", "Co
 ########## Set up the chart
 
 df = pd.read_csv('sources/us-house-117.csv')
-data2 = df.groupby(['age_range', 'party'])['name'].count()
-data2 = data2.unstack(level=-1)
-data2.reset_index(level=0, inplace=True)
-fig2 = px.bar(data2, x='age_range', y=['Democratic','Republican'],
-              barmode='group')
 
 ########### Initiate the app
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -49,7 +44,7 @@ app.layout = html.Div(children=[
                     value=list_of_columns[1]
                 ),
         ], className='two columns'),
-        html.Div([dcc.Graph(id='figure-2', figure=fig2),
+        html.Div([dcc.Graph(id='figure-2'),
             ], className='ten columns'),
     ], className='twelve columns'),
     html.A('Code on Github', href=githublink),
