@@ -128,8 +128,9 @@ def make_figure(varname):
     
     data2 = df[df['clean_state'] == varname].groupby(['age_range', 'party'])['name'].count()
     data2 = data2.unstack(level=-1)
-    data2.reset_index(level=0, inplace=True)
+    data2 = data2.reset_index(level=0, inplace=True)
     color_discrete_sequence = ['#009ACD','#FFB6C1']
+    #data2.plot(x='age_range', y=['Democratic', 'Republican'], kind='bar');
     fig2 = px.bar(data2, x="Code", y=varname, 
                  color="party", barmode="group",color_discrete_sequence=color_discrete_sequence)
     fig2.update_layout(
