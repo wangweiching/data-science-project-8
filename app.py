@@ -25,7 +25,7 @@ list_of_columns = ["Alaska", "Alabama", "Arkansas", "Arizona", "California", "Co
 df = pd.read_csv('sources/us-house-117.csv')
 
 ########## US States to Code
-us_state_to_abbrev = {
+'''us_state_to_abbrev = {
     "Alaska": "AK",
     "Alabama": "AL",
     "Arkansas": "AR",
@@ -77,7 +77,7 @@ us_state_to_abbrev = {
     "West Virginia": "WV",
     "Wyoming": "WY",
 }
-df['Code'] = df['clean_state'].map(us_state_to_abbrev)
+df['Code'] = df['clean_state'].map(us_state_to_abbrev)'''
 #df=df[df['Age Group']!='25 and older']
 
 ########### Initiate the app
@@ -96,7 +96,7 @@ app.layout = html.Div(children=[
                 dcc.Dropdown(
                     id='options-drop1',
                     options=[{'label': i, 'value': i} for i in list_of_columns],
-                    value='Arizona'
+                    value='Alaska'
                 ),
         ], className='two columns'),
         html.Div([dcc.Graph(id='figure-1'),
@@ -126,7 +126,7 @@ def make_figure(varname):
     female_rate = pd.merge(female,male,on=['Code']).merge(total,on=['Code'])
     female_rate['Female Rate'] = female_rate['Female']/female_rate['Total']'''
     
-    data2 = df[df['clean_state'] == varname].groupby(['age_range', 'party'])['name'].count()
+    data2 = df.groupby(['age_range', 'party'])['name'].count()
     data2 = data2.unstack(level=-1)
     data2 = data2.reset_index(level=0, inplace=True)
     color_discrete_sequence = ['#009ACD','#FFB6C1']
