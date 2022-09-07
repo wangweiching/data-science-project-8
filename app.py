@@ -99,7 +99,7 @@ app.layout = html.Div(children=[
                     value='Alaska'
                 ),
         ], className='two columns'),
-        html.Div([dcc.Graph(id='figure-1'),
+        html.Div([dcc.Graph(id='figure-2'),
             ], className='ten columns'),
     ], className='twelve columns'),
     html.A('Code on Github', href=githublink),
@@ -139,7 +139,6 @@ def make_figure(varname):
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)'
     )
-    
     return fig2
 
 @app.callback(Output('figure-2', 'figure'),
