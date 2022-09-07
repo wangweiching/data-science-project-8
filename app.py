@@ -131,14 +131,17 @@ def make_figure(varname):
     data2 = df.groupby(['age_range', 'party'])['name'].count()
     data2 = data2.unstack(level=-1)
     data2 = data2.reset_index(level=0, inplace=True)
-    color_discrete_sequence = ['#009ACD','#FFB6C1']
+    #color_discrete_sequence = ['#009ACD','#FFB6C1']
     #data2.plot(x='age_range', y=['Democratic', 'Republican'], kind='bar');
-    fig2 = px.bar(data2, x="age_range", y=['Democratic','Republican'],
-                 color="party", barmode="group",color_discrete_sequence=color_discrete_sequence)
+    fig2 = px.bar(data2, x='age_range', y=['Democratic','Republican'],
+                 barmode='group')
+    fig2.update_layout(
+        width=1200,
+        height=500,
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)'
+    )
     return fig2
-
-def figure_callback1(varname):
-    return make_figure(varname)
 
 '''@app.callback(Output('figure-3', 'figure'),
              Output('figure-4', 'figure'),
