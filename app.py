@@ -103,9 +103,7 @@ app.layout = html.Div(children=[
                     value='Alaska'
                 ),
         ], className='two columns'),
-        html.Div([dcc.Graph(id='figure-2',
-                           figure=fig2
-                           ),
+        html.Div([dcc.Graph(id='figure-2'),
             ], className='ten columns'),
     ], className='twelve columns'),
     html.A('Code on Github', href=githublink),
@@ -116,7 +114,7 @@ app.layout = html.Div(children=[
 
 
 # make a function that can intake any varname and produce a map.
-'''@app.callback(Output('figure-2', 'figure'),
+@app.callback(Output('figure-2', 'figure'),
              Input('options-drop1', 'value'))
 
 def make_figure(varname):
@@ -124,30 +122,18 @@ def make_figure(varname):
     mygraphtitle = f'Age Range of 117th US House Reps of {varname}'
     #mycolorscale = 'Sunset' # Note: The error message will list possible color scales.
     
-    major = pd.DataFrame(df,columns = ['Code','Sex',varname])
-    major[varname] = major[varname].replace(",","", regex=True).astype(float)
-    total = major[major['Sex']=='Total'].groupby(['Code'],as_index = False).sum().rename(columns={varname:"Total"})
-    female = major[major['Sex']=='Female'].groupby(['Code'],as_index = False).sum().rename(columns={varname:"Female"})
-    male = major[major['Sex']=='Female'].groupby(['Code'],as_index = False).sum().rename(columns={varname:"Male"})
-    female_rate = pd.DataFrame()
-    female_rate['Code']  = df['State'].map(us_state_to_abbrev)
-    female_rate = pd.merge(female,male,on=['Code']).merge(total,on=['Code'])
-    female_rate['Female Rate'] = female_rate['Female']/female_rate['Total']
-    
-    data2 = df.groupby(['age_range', 'party'])['name'].count()
+    data2 = df[df['clean_state']==varname].groupby(['age_range', 'party'])['name'].count()
     data2 = data2.unstack(level=-1)
-    data2 = data2.reset_index(level=0, inplace=True)
-    #color_discrete_sequence = ['#009ACD','#FFB6C1']
-    #data2.plot(x='age_range', y=['Democratic', 'Republican'], kind='bar');
+    data2.reset_index(level=0, inplace=True)
     fig2 = px.bar(data2, x='age_range', y=['Democratic','Republican'],
-                 barmode='group')
+              barmode='group')
     fig2.update_layout(
         width=1200,
         height=500,
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)'
     )
-    return fig2'''
+    return fig2
 
 '''@app.callback(Output('figure-3', 'figure'),
              Output('figure-4', 'figure'),
