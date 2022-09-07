@@ -100,27 +100,11 @@ app.layout = html.Div(children=[
                 ),
         ], className='two columns'),
         html.Div([dcc.Graph(id='figure-1'),
-            ], className='five columns'),
-        html.Div([dcc.Graph(id='figure-2'),
-            ], className='five columns'),
-    ], className='twelve columns'),
-    '''html.Div([
-        html.Div([
-                html.H6('Select a major for analysis:'),
-                dcc.Dropdown(
-                    id='options-drop2',
-                    options=[{'label': i, 'value': i} for i in list_of_columns],
-                    value='Arts, Humanities and Others'
-                ),
-        ], className='two columns'),
-        html.Div([dcc.Graph(id='figure-3'),
-            ], className='five columns'),
-        html.Div([dcc.Graph(id='figure-4'),
-            ], className='five columns'),
+            ], className='ten columns'),
     ], className='twelve columns'),
     html.A('Code on Github', href=githublink),
     html.Br(),
-    html.A("Data Source", href=sourceurl),'''
+    html.A("Data Source", href=sourceurl),
     ]
 )
 
