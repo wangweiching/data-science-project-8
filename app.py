@@ -110,6 +110,8 @@ app.layout = html.Div(children=[
 
 
 # make a function that can intake any varname and produce a map.
+@app.callback(Output('figure-2', 'figure'),
+             Input('options-drop1', 'value'))
 
 def make_figure(varname):
     mycolorbartitle = "117th US House Reps"
@@ -133,16 +135,7 @@ def make_figure(varname):
     #data2.plot(x='age_range', y=['Democratic', 'Republican'], kind='bar');
     fig2 = px.bar(data2, x="age_range", y=['Democratic','Republican'],
                  color="party", barmode="group",color_discrete_sequence=color_discrete_sequence)
-    fig2.update_layout(
-        width=1200,
-        height=500,
-        paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='rgba(0,0,0,0)'
-    )
     return fig2
-
-@app.callback(Output('figure-2', 'figure'),
-             Input('options-drop1', 'value'))
 
 def figure_callback1(varname):
     return make_figure(varname)
