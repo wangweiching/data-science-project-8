@@ -23,7 +23,13 @@ list_of_columns = ["Alaska", "Alabama", "Arkansas", "Arizona", "California", "Co
 ########## Set up the chart
 
 df = pd.read_csv('sources/us-house-117.csv')
-
+data2 = df.groupby(['age_range', 'party'])['name'].count()
+    data2 = data2.unstack(level=-1)
+    data2 = data2.reset_index(level=0, inplace=True)
+    #color_discrete_sequence = ['#009ACD','#FFB6C1']
+    #data2.plot(x='age_range', y=['Democratic', 'Republican'], kind='bar');
+    fig2 = px.bar(data2, x='age_range', y=['Democratic','Republican'],
+                 barmode='group')
 ########## US States to Code
 '''us_state_to_abbrev = {
     "Alaska": "AK",
@@ -100,6 +106,7 @@ app.layout = html.Div(children=[
                 ),
         ], className='two columns'),
         html.Div([dcc.Graph(id='figure-2'),
+                  figure=fig2
             ], className='ten columns'),
     ], className='twelve columns'),
     html.A('Code on Github', href=githublink),
@@ -110,7 +117,7 @@ app.layout = html.Div(children=[
 
 
 # make a function that can intake any varname and produce a map.
-@app.callback(Output('figure-2', 'figure'),
+'''@app.callback(Output('figure-2', 'figure'),
              Input('options-drop1', 'value'))
 
 def make_figure(varname):
@@ -118,7 +125,7 @@ def make_figure(varname):
     mygraphtitle = f'Age Range of 117th US House Reps of {varname}'
     #mycolorscale = 'Sunset' # Note: The error message will list possible color scales.
     
-    '''major = pd.DataFrame(df,columns = ['Code','Sex',varname])
+    major = pd.DataFrame(df,columns = ['Code','Sex',varname])
     major[varname] = major[varname].replace(",","", regex=True).astype(float)
     total = major[major['Sex']=='Total'].groupby(['Code'],as_index = False).sum().rename(columns={varname:"Total"})
     female = major[major['Sex']=='Female'].groupby(['Code'],as_index = False).sum().rename(columns={varname:"Female"})
@@ -126,7 +133,7 @@ def make_figure(varname):
     female_rate = pd.DataFrame()
     female_rate['Code']  = df['State'].map(us_state_to_abbrev)
     female_rate = pd.merge(female,male,on=['Code']).merge(total,on=['Code'])
-    female_rate['Female Rate'] = female_rate['Female']/female_rate['Total']'''
+    female_rate['Female Rate'] = female_rate['Female']/female_rate['Total']
     
     data2 = df.groupby(['age_range', 'party'])['name'].count()
     data2 = data2.unstack(level=-1)
@@ -141,7 +148,7 @@ def make_figure(varname):
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)'
     )
-    return fig2
+    return fig2'''
 
 '''@app.callback(Output('figure-3', 'figure'),
              Output('figure-4', 'figure'),
